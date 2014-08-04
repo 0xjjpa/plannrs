@@ -1,82 +1,60 @@
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+//Week 32 Non-Epics 
+//https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20!=%20Epic%20ORDER%20BY%20Rank%20ASC&maxResults=100
+//Week 32 Epics
+//https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20=%20Epic%20ORDER%20BY%20Rank%20ASC
 
-var parseDate = d3.time.format("%y-%b-%d").parse,
-    formatPercent = d3.format(".0%");
 
-var x = d3.time.scale()
-    .range([0, width]);
-
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-var color = d3.scale.category20();
-
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
-    .tickFormat(formatPercent);
-
-var area = d3.svg.area()
-    .x(function(d) { return x(d.date); })
-    .y0(function(d) { return y(d.y0); })
-    .y1(function(d) { return y(d.y0 + d.y); });
-
-var stack = d3.layout.stack()
-    .values(function(d) { return d.values; });
-
-var svg = d3.select(".jumbotron").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-d3.tsv("data.tsv", function(error, data) {
-  color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
-
-  data.forEach(function(d) {
-    d.date = parseDate(d.date);
+$.getJSON('week32_nonepics.json', function(nonepics) {
+  //customfield_10900 - Epic Links
+  var issuesArray = [], issueObject;
+  nonepics.issues.forEach(function(issue) {
+    issueObject = {};
+    issueObject['dueDate'] = moment(issue.fields.duedate);
+    issuesArray.push(issueObject);
   });
-
-  var browsers = stack(color.domain().map(function(name) {
-    return {
-      name: name,
-      values: data.map(function(d) {
-        return {date: d.date, y: d[name] / 100};
-      })
-    };
-  }));
-
-  x.domain(d3.extent(data, function(d) { return d.date; }));
-
-  var browser = svg.selectAll(".browser")
-      .data(browsers)
-    .enter().append("g")
-      .attr("class", "browser");
-
-  browser.append("path")
-      .attr("class", "area")
-      .attr("d", function(d) { return area(d.values); })
-      .style("fill", function(d) { return color(d.name); });
-
-  browser.append("text")
-      .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
-      .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.y0 + d.value.y / 2) + ")"; })
-      .attr("x", -6)
-      .attr("dy", ".35em")
-      .text(function(d) { return d.name; });
-
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis);
+  $.getJSON('week32_epics.json', function(epics){
+    //customfield_10901 - Summary
+    var epicsHashMap = {};
+    epics.issues.forEach(function(epic){
+      epicsHashMap[epic.key] = {
+        name: epic.fields.customfield_10901,
+        summary: epic.fields.summary
+      }
+    });
+    console.log(epicsHashMap);
+    console.log(issuesArray);
+  })
 });
+
+
+
+d3.json('stackedAreaData.json', function(data) {
+  nv.addGraph(function() {
+    var chart = nv.models.stackedAreaChart()
+                  .margin({right: 100})
+                  .x(function(d) { return d[0] })   //We can modify the data accessor functions...
+                  .y(function(d) { return d[1] })   //...in case your data is formatted differently.
+                  .useInteractiveGuideline(true)    //Tooltips which show all data points. Very nice!
+                  .rightAlignYAxis(true)      //Let's move the y-axis to the right side.
+                  .transitionDuration(500)
+                  .showControls(true)       //Allow user to choose 'Stacked', 'Stream', 'Expanded' mode.
+                  .clipEdge(true);
+
+    //Format x-axis labels with custom function.
+    chart.xAxis
+        .tickFormat(function(d) { 
+          return d3.time.format('%x')(new Date(d)) 
+    });
+
+    chart.yAxis
+        .tickFormat(d3.format(',.2f'));
+
+    d3.select('.jumbotron svg')
+      .datum(data)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+})
