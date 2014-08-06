@@ -3,6 +3,20 @@
 //Week 32 Epics
 //https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20=%20Epic%20ORDER%20BY%20Rank%20ASC
 
+var CREDENTIALS = btoa("banana:banana");
+
+var EPICS_URL = 'https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20=%20Epic%20ORDER%20BY%20Rank%20ASC';
+var NONEPICS_URL = 'https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20!=%20Epic%20ORDER%20BY%20Rank%20ASC&maxResults=100';
+
+var JIRA_REQUEST = {
+  beforeSend: function(xhr) {
+    xhr.setRequestHeader("Authorization", "Basic " + CREDENTIALS);
+  },
+  type: 'GET',
+  dataType: 'json',
+  contentType: 'application/json'
+}
+
 var LIMIT_END_DATE = moment().weekday(6);
 var START_END_DATE = moment().weekday(1);
 
@@ -47,8 +61,12 @@ var generateValuesFromIssues = function(issuesArray) {
   return aggregatedValueArray;
 }
 
-  
-$.getJSON('week32_epics.json', function(epics){
+JIRA_REQUEST.url = EPICS_URL;
+JIRA_REQUEST.success = epicsSucessCallBack;
+
+$.ajax(JIRA_REQUEST);
+
+var epicsSucessCallBack = function(epics){
   //customfield_10901 - Summary
   var epicsHashMap = {};
   epics.issues.forEach(function(epic){
@@ -59,7 +77,9 @@ $.getJSON('week32_epics.json', function(epics){
     }
   });
 
-  $.getJSON('week32_nonepics.json', function(nonepics) {
+
+  JIRA_REQUEST.url = NONEPICS_URL;
+  JIRA_REQUEST.success = function(nonepics) {
   //customfield_10900 - Epic Links
   //customfield_10105 - Story Points
   var issuesArray = [], issueObject, maxDate = moment(), epicMatchedIssue;
@@ -97,8 +117,10 @@ $.getJSON('week32_epics.json', function(epics){
 
   drawGraph(weeklyReport);
 
-  });
-});
+  };
+
+  $.ajax(JIRA_REQUEST);
+};
 
 function drawGraph(weeklyReportData) {
     nv.addGraph(function() {
