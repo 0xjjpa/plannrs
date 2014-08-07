@@ -9,8 +9,8 @@ var EPICS_URL = 'https://centralway.atlassian.net/rest/api/latest/search?jql=PRO
 var NONEPICS_URL = 'https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20!=%20Epic%20ORDER%20BY%20Rank%20ASC&maxResults=100';
 
 var JIRA_REQUEST = {
-  beforeSend: function(xhr) {
-    xhr.setRequestHeader("Authorization", "Basic " + CREDENTIALS);
+  xhrFields: {
+    withCredentials: true
   },
   type: 'GET',
   dataType: 'json',
@@ -61,7 +61,8 @@ var generateValuesFromIssues = function(issuesArray) {
   return aggregatedValueArray;
 }
 
-JIRA_REQUEST.url = EPICS_URL;
+JIRA_REQUEST.url = 'http://localhost:8080/api/proxy';
+JIRA_REQUEST.data = {url: EPICS_URL};
 JIRA_REQUEST.success = epicsSucessCallBack;
 
 $.ajax(JIRA_REQUEST);

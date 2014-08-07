@@ -1,7 +1,10 @@
 {
   "name": "plannrs",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "request": "^2.39.0",
+    "restify": "^2.8.1"
+  },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-copy": "~0.5.0",
