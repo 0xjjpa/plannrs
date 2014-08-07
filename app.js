@@ -1,10 +1,12 @@
 var restify = require('restify');
 var request = require('request');
+var credentials = require('./config.json');
 
 function proxy(req, res, next) {
+  console.log("Proxy was called");
   if(req.params.url) {
-    request('http://foaas.herokuapp.com/off/John/Jesus', function(error, response, body){
-      res.send(response.body);
+    request({url:req.params.url, json: true, auth: credentials}, function(error, response, body){
+      res.send(body);
     });
   } else {
     res.send({});

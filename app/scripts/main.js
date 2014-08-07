@@ -65,9 +65,11 @@ JIRA_REQUEST.url = 'http://localhost:8080/api/proxy';
 JIRA_REQUEST.data = {url: EPICS_URL};
 JIRA_REQUEST.success = epicsSucessCallBack;
 
+console.log(JIRA_REQUEST);
 $.ajax(JIRA_REQUEST);
 
 var epicsSucessCallBack = function(epics){
+  console.log(epics)
   //customfield_10901 - Summary
   var epicsHashMap = {};
   epics.issues.forEach(function(epic){
@@ -79,7 +81,8 @@ var epicsSucessCallBack = function(epics){
   });
 
 
-  JIRA_REQUEST.url = NONEPICS_URL;
+  JIRA_REQUEST.url = 'http://localhost:8080/api/proxy';
+  JIRA_REQUEST.data = {url: NONEPICS_URL};
   JIRA_REQUEST.success = function(nonepics) {
   //customfield_10900 - Epic Links
   //customfield_10105 - Story Points
