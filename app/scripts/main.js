@@ -17,8 +17,13 @@ var JIRA_REQUEST = {
   contentType: 'application/json'
 }
 
-var LIMIT_END_DATE = moment().weekday(6);
-var START_END_DATE = moment().weekday(1);
+/*
+* Set day of the month.
+* moment().date(12)
+*/
+var START_END_DATE = moment().date(1);
+var LIMIT_END_DATE = moment().date(30);
+
 
 var generateDates = function(dueDate) {
   var tmp = START_END_DATE.clone(), dates = {}, unixDate, count = 0;
@@ -68,7 +73,7 @@ JIRA_REQUEST.success = epicsSucessCallBack;
 console.log(JIRA_REQUEST);
 $.ajax(JIRA_REQUEST);
 
-var epicsSucessCallBack = function(epics){
+function epicsSucessCallBack(epics){
   console.log(epics)
   //customfield_10901 - Summary
   var epicsHashMap = {};
