@@ -3,8 +3,6 @@
 //Week 32 Epics
 //https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20=%20Epic%20ORDER%20BY%20Rank%20ASC
 
-var CREDENTIALS = btoa("banana:banana");
-
 var EPICS_URL = 'https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20=%20Epic%20ORDER%20BY%20Rank%20ASC';
 var NONEPICS_URL = 'https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20!=%20Epic%20ORDER%20BY%20Rank%20ASC&maxResults=100';
 
@@ -21,8 +19,8 @@ var JIRA_REQUEST = {
 * Set day of the month.
 * moment().date(12)
 */
-var START_END_DATE = moment().date(1);
-var LIMIT_END_DATE = moment().date(30);
+var START_END_DATE = moment().date(18);
+var LIMIT_END_DATE = moment().date(22);
 
 
 var generateDates = function(dueDate) {
