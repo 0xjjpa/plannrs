@@ -3,8 +3,8 @@
 //Week 32 Epics
 //https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20=%20Epic%20ORDER%20BY%20Rank%20ASC
 
-var EPICS_URL = 'https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20=%20Epic%20ORDER%20BY%20Rank%20ASC';
-var NONEPICS_URL = 'https://centralway.atlassian.net/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20!=%20Epic%20ORDER%20BY%20Rank%20ASC&maxResults=100';
+var EPICS_URL = 'https://jira.cwc.io/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20=%20Epic%20ORDER%20BY%20Rank%20ASC';
+var NONEPICS_URL = 'https://jira.cwc.io/rest/api/latest/search?jql=PROJECT%20in%20(Web,%20C-App)%20AND%20assignee%20in%20(jose.perez,%20jorge.gonzalez,%20peter.braden)%20AND%20(status%20not%20in%20(Done,%20Closed)%20OR%20sprint%20in%20(openSprints(),%20futureSprints()))%20AND%20issuetype%20!=%20Epic%20ORDER%20BY%20Rank%20ASC&maxResults=100';
 
 var JIRA_REQUEST = {
   xhrFields: {
@@ -19,8 +19,8 @@ var JIRA_REQUEST = {
 * Set day of the month.
 * moment().date(12)
 */
-var START_END_DATE = moment().date(18);
-var LIMIT_END_DATE = moment().date(22);
+var START_END_DATE = moment().subtract(1, 'month').date(24);
+var LIMIT_END_DATE = moment().date(4);
 
 
 var generateDates = function(dueDate) {
@@ -41,7 +41,11 @@ var generateValuesFromIssues = function(issuesArray) {
   while(start.isBefore(end)) {
     for(var i = 0, len = issuesArray.length; i < len; i++) {
       issue = issuesArray[i];
-      if(issue.dates[start.format('X')]) {
+      console.log('IssuesArray', issuesArray);
+      console.log('Iteration', i);
+      console.log('Issue', issue);
+      console.log('Start', start.format('X'));
+      if(issue.dates && issue.dates[start.format('X')]) {
         value = values[start.format('X')] ? value + issue.storyPoints : issue.storyPoints;
         values[start.format('X')] = value;
       } else {
