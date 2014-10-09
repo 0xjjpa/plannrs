@@ -6,8 +6,8 @@
     "jquery": "~1.11.0",
     "nvd3": "~1.1.15-beta",
     "momentjs": "~2.8.1",
-    "angular-local-storage": "~0.1.1",
-    "angularjs": "~1.2.26"
+    "angularjs": "~1.2.26",
+    "angular-local-storage": "~0.1.1"
   },
   "devDependencies": {}
 }
