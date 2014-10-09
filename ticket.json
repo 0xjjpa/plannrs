@@ -1,0 +1,25 @@
+{
+    "fields": {
+        "issuetype": {
+            "id": "3"
+        },
+        "project": {
+            "id": "11903"
+        },
+        "summary": "Reviewing portfolio planning",
+        "assignee": {
+            "name": "jose.perez"
+        },
+        "reporter": {
+            "name": "jose.perez"
+        },
+        "priority": {
+            "id": "3"
+        }, 
+        "security": {
+            "id":"10802"
+        },
+        "description": "Reviewing portfolio planning",
+        "duedate": "2014-10-11"
+    }
+}

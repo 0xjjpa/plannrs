@@ -73,8 +73,9 @@ JIRA_REQUEST.data = {url: EPICS_URL};
 JIRA_REQUEST.success = epicsSucessCallBack;
 
 console.log(JIRA_REQUEST);
-
+/*
 $.ajax(JIRA_REQUEST);
+*/
 
 
 function epicsSucessCallBack(epics){
