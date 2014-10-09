@@ -12,17 +12,33 @@ angular.module('plannrs')
       }
     }
 
-    self.getProjects = function() {
-      var key = 'GET_PROJECTS',
+    var _getHTTPOperation = function(url, key, defer) {
+      $http({method: 'GET', url: API_URL, params:{url:url}}).success(function(response) {
+        localStorageService.set(key, response);
+        defer.resolve(response);
+      }).error(function(error) {
+        defer.reject(error);
+      });
+    }
+
+    self.getComponents = function() {
+      var key = 'GET_COMPONENTS',
+          url = '/project/11903/components', // “CWCOM Project”
           defer = $q.defer();
 
       if(!_isPreviouslyStored(key, defer)) {
-        $http({method: 'GET', url: API_URL, params:{url:'/project'}}).success(function(response) {
-          localStorageService.set(key, response);
-          return defer.resolve(response);
-        }).error(function(error) {
-          return defer.reject(error);
-        });
+        _getHTTPOperation(url, key, defer);
+      }
+      return defer.promise;
+    }
+
+    self.getProjects = function() {
+      var key = 'GET_PROJECTS',
+          url = '/project',
+          defer = $q.defer();
+
+      if(!_isPreviouslyStored(key, defer)) {
+        _getHTTPOperation(url, key, defer);
       }
       return defer.promise;
     }
