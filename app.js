@@ -2,10 +2,12 @@ var restify = require('restify');
 var request = require('request');
 var credentials = require('./config.json');
 
-function proxy(req, res, next) {
-  console.log("Proxy was called");
-  if(req.params.url) {
-    request({url:req.params.url, json: true, auth: credentials}, function(error, response, body){
+var JIRA_URL = 'https://jira.cwc.io/rest/api/latest'
+
+function proxyForGET(req, res, next) {
+  console.log("GET proxy called");
+  if(req.params && req.params.url) {
+    request({url:JIRA_URL+req.params.url, json: true, auth: credentials}, function(error, response, body){
       res.send(body);
     });
   } else {
@@ -14,24 +16,15 @@ function proxy(req, res, next) {
   next();
 }
 
-function createIssue(req, res, next) {
-  console.log("Post Proxy was called");
-  if(req.params) {
-    request.post({
-     url:"https://jira.cwc.io/rest/api/latest/issue",
-     json: true, 
-     auth: credentials, 
-     body:req.params
-   }, function(error, response, body){
-      console.log("Error", error);
-      console.log("Response", response);
-      console.log("Body", body);
-      res.send({});
+function proxyForPOST(req, res, next) {
+  console.log("POST proxy called");
+  if(req.params && req.params.url) {
+    request({url:JIRA_URL+req.params.url, json: true, auth: credentials, body: req.params.body}, function(error, response, body){
+      res.send(201, body)
     });
   } else {
-    res.send({});
+    res.send(400);
   }
-  res.send(201, {})
   next();
 }
 
@@ -41,8 +34,8 @@ server.pre(restify.CORS({credentials: true}));
 server.pre(restify.fullResponse());
 server.use(restify.bodyParser());
 server.use(restify.queryParser());
-server.get('/api/proxy', proxy);
-server.post('/api/createIssue', createIssue);
+server.get('/api/proxy', proxyForGET);
+server.post('/api/proxy', proxyForPOST);
 
 server.listen(8080, function() {
   console.log('%s listening at %s', server.name, server.url);
