@@ -28,11 +28,15 @@ angular.module('plannrs')
       return defer.promise
     }
 
+    var _getURLFromJQLQuery = function(query) {
+      return '/search?jql='+encodeURI(query);
+    }
+
     self.getComponents = function() {
       var key = 'GET_COMPONENTS',
           url = '/project/11903/components', // “CWCOM Project”
           defer = $q.defer();
-          
+
       return _executeSmartAPIRetrieval(url, key, defer);
     }
 
@@ -56,7 +60,7 @@ angular.module('plannrs')
       var key = 'GET_EPICS',
           url = _getURLFromJQLQuery('issuetype = Epic and project = CWCOM and status = Open'),
           defer = $q.defer();
-
+      return _executeSmartAPIRetrieval(url, key, defer);
     }
 
 

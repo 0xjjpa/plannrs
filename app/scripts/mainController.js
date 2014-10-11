@@ -6,12 +6,14 @@ angular.module('plannrs')
       affectedVersionLabel: 'Select version',
       fixVersionLabel: 'Select version',
       labelLabel: 'Select label',
+      epicLabel: 'Select epic'
     }
     $scope.data = {
       projects: [{key:'Loading...'}],
       components: [{name:'Loading...'}],
       versions: [{name:'Loading...'}],
-      labels: ['2014Q4WebDevOps','2014Q4WebFrontEnd','2014Q4WebTechnology','2014Q4WebOperations']
+      labels: ['2014Q4WebDevOps','2014Q4WebFrontEnd','2014Q4WebTechnology','2014Q4WebOperations'],
+      epics: [{fields:{customfield_10901:'Loading...'}}]
     }
     $scope.formData = {
       selectedProjectId: null,
@@ -24,7 +26,8 @@ angular.module('plannrs')
       selectedFixVersionId: null,
       selectedReporter: "jose.perez",
       selectedAssignee: "jose.perez",
-      selectedLabel: null
+      selectedLabel: null,
+      selectedEpicKey: null
     }
 
     $scope.loadProjects = function() {
@@ -44,6 +47,12 @@ angular.module('plannrs')
       promise.then(function(response) {
         $scope.data.versions = response;
       });
+    }
+    $scope.loadEpics = function() {
+      var promise = mainService.getEpics();
+      promise.then(function(response) {
+        $scope.data.epics = response.issues;
+      }); 
     }
 
     $scope.selectProject = function(project) {
@@ -89,6 +98,16 @@ angular.module('plannrs')
     $scope.clearLabel = function() {
       $scope.ui.labelLabel = 'Select label';
       $scope.formData.selectedLabel = null;
+    }
+
+
+    $scope.selectEpic = function(epic) {
+      $scope.ui.epicLabel = epic.fields.customfield_10901;
+      $scope.formData.selectedEpicKey = epic.key; 
+    }
+    $scope.clearEpic = function() {
+      $scope.ui.epicLabel = 'Select epic';
+      $scope.formData.selectedEpicKey = null;
     }
     
 }])
