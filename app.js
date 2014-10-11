@@ -5,7 +5,7 @@ var credentials = require('./config.json');
 var JIRA_URL = 'https://jira.cwc.io/rest/api/latest'
 
 function proxyForGET(req, res, next) {
-  console.log("GET proxy called");
+  console.log("GET proxy called:"+req.params.url);
   if(req.params && req.params.url) {
     request({url:JIRA_URL+req.params.url, json: true, auth: credentials}, function(error, response, body){
       res.send(body);

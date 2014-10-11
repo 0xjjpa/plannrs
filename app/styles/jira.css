@@ -1,0 +1,9 @@
+.btn-group--jira {
+  width: 100%;
+}
+.btn-group--jira button {
+  width: 50%;
+}
+.btn-group--jira .dropdown-menu {
+  left: 50%;
+}

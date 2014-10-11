@@ -21,15 +21,27 @@ angular.module('plannrs')
       });
     }
 
+    var _executeSmartAPIRetrieval = function(url, key, defer) {
+      if(!_isPreviouslyStored(key, defer)) {
+        _getHTTPOperation(url, key, defer);
+      }
+      return defer.promise
+    }
+
     self.getComponents = function() {
       var key = 'GET_COMPONENTS',
           url = '/project/11903/components', // “CWCOM Project”
           defer = $q.defer();
+          
+      return _executeSmartAPIRetrieval(url, key, defer);
+    }
 
-      if(!_isPreviouslyStored(key, defer)) {
-        _getHTTPOperation(url, key, defer);
-      }
-      return defer.promise;
+    self.getVersions = function() {
+      var key = 'GET_VERSIONS',
+          url = '/project/11903/versions', // “CWCOM Project”
+          defer = $q.defer();
+
+      return _executeSmartAPIRetrieval(url, key, defer);
     }
 
     self.getProjects = function() {
@@ -37,11 +49,17 @@ angular.module('plannrs')
           url = '/project',
           defer = $q.defer();
 
-      if(!_isPreviouslyStored(key, defer)) {
-        _getHTTPOperation(url, key, defer);
-      }
-      return defer.promise;
+      return _executeSmartAPIRetrieval(url, key, defer);
     }
+
+    self.getEpics = function() {
+      var key = 'GET_EPICS',
+          url = _getURLFromJQLQuery('issuetype = Epic and project = CWCOM and status = Open'),
+          defer = $q.defer();
+
+    }
+
+
 
     return self;
 }])
