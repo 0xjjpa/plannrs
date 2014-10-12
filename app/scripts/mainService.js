@@ -65,6 +65,14 @@ angular.module('plannrs')
       return _executeSmartAPIRetrieval(url, key, defer);
     }
 
+    self.getPriorities = function() {
+      var key = 'GET_PRIORITIES',
+          url = '/priority',
+          defer = $q.defer();
+          
+      return _executeSmartAPIRetrieval(url, key, defer);
+    }
+
     self.getEpics = function() {
       var key = 'GET_EPICS',
           url = _getURLFromJQLQuery('issuetype = Epic and project = CWCOM and status = Open'),

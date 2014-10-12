@@ -6,20 +6,22 @@ angular.module('plannrs')
       affectedVersionLabel: 'Select version',
       fixVersionLabel: 'Select version',
       labelLabel: 'Select label',
-      epicLabel: 'Select epic'
+      epicLabel: 'Select epic',
+      priorityLabel: 'Select priority'
     }
     $scope.data = {
       projects: [{key:'Loading...'}],
       components: [{name:'Loading...'}],
       versions: [{name:'Loading...'}],
       labels: ['2014Q4WebDevOps','2014Q4WebFrontEnd','2014Q4WebTechnology','2014Q4WebOperations'],
-      epics: [{fields:{customfield_10901:'Loading...'}}]
+      epics: [{fields:{customfield_10901:'Loading...'}}],
+      priorities: [{name:'Loading...'}]
     }
     $scope.formData = {
       selectedProjectId: null,
       selectedIssueTypeId: 3, // “Task”
       selectedSecurityId: 10802, // “Open to Centralway”,
-      selectedPriorityId: 3, // “Major”,
+      selectedPriorityId: null, // “Major”,
       selectedDueDate: moment().add(1, 'week').day(5).format('YYYY-MM-DD'), // “Due Date”
       selectedComponentId: null,
       selectedAffectedVersionId: null,
@@ -54,10 +56,21 @@ angular.module('plannrs')
         $scope.data.epics = response.issues;
       }); 
     }
+    $scope.loadPriorities = function() {
+      var promise = mainService.getPriorities();
+      promise.then(function(response) {
+        $scope.data.priorities = response;
+      }); 
+    }
 
     $scope.selectProject = function(project) {
       $scope.ui.projectLabel = project.key;
       $scope.formData.selectedProjectId = project.id;
+    }
+
+    $scope.selectPriority = function(priority) {
+      $scope.ui.priorityLabel = priority.name;
+      $scope.formData.selectedPriorityId = priority.id;
     }
 
 
