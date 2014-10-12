@@ -12,6 +12,15 @@ angular.module('plannrs')
       }
     }
 
+    var _postHTTPOperations = function(url, key, defer, body) {
+      $http({method: 'POST', url: API_URL, params: {url:url, body: body}}).success(function(response) {
+        //localStorageService.set(key, response);
+        defer.resolve(response);
+      }).error(function(error) {
+        defer.reject(error);
+      });
+    }
+
     var _getHTTPOperation = function(url, key, defer) {
       $http({method: 'GET', url: API_URL, params:{url:url}}).success(function(response) {
         localStorageService.set(key, response);
@@ -63,7 +72,52 @@ angular.module('plannrs')
       return _executeSmartAPIRetrieval(url, key, defer);
     }
 
+    self.createTicket = function(ticketData) {
+      var queryData = {},
+          fields = queryData.fields = {},
+          url = '/issue',
+          defer = $q.defer();
 
+      //IssueType
+      fields.issuetype = {}
+      fields.issuetype.id = ticketData.selectedIssueTypeId;
+      //Project
+      fields.project = {}
+      fields.project.id = ticketData.selectedProjectId;
+      //Summary
+      fields.summary = "Review backlog";
+      //Assignee
+      fields.assignee = {};
+      fields.assignee.name = ticketData.selectedAssignee;
+      //Reporter
+      fields.reporter = {};
+      fields.reporter.name = ticketData.selectedReporter;
+      //Priority
+      fields.priority = {}
+      fields.priority.id = ticketData.selectedPriorityId;
+      //Security
+      fields.security = {}
+      fields.security.id = ticketData.selectedSecurityId;
+      //DueDate
+      fields.duedate = ticketData.selectedDueDate;
+      //Components
+      fields.components = []
+      fields.components.push({id:ticketData.selectedComponentId});
+      //Versions (affectedVersions)
+      fields.versions = [];
+      fields.versions.push({id:ticketData.selectedAffectedVersionId});
+      //fixVersions
+      fields.fixVersions = []
+      fields.fixVersions.push({id:ticketData.selectedFixVersionId});
+      //labels
+      fields.labels = []
+      fields.labels.push(ticketData.selectedLabel);
+      fields.labels.push('PendingReview')
+      //epic
+      fields.customfield_10900 = ticketData.selectedEpicKey;
+      console.log(queryData)
+      return _postHTTPOperations(url, null, defer,queryData);
+    }
 
     return self;
 }])

@@ -109,5 +109,12 @@ angular.module('plannrs')
       $scope.ui.epicLabel = 'Select epic';
       $scope.formData.selectedEpicKey = null;
     }
+
+
+
+    $scope.createTicket = function() {
+      var ticketData = angular.copy($scope.formData);
+      console.log("Response", mainService.createTicket(ticketData));
+    }
     
 }])

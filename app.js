@@ -17,9 +17,12 @@ function proxyForGET(req, res, next) {
 }
 
 function proxyForPOST(req, res, next) {
-  console.log("POST proxy called");
+  console.log("POST proxy called:"+req.params.url);
   if(req.params && req.params.url) {
-    request({url:JIRA_URL+req.params.url, json: true, auth: credentials, body: req.params.body}, function(error, response, body){
+    request.post({url:JIRA_URL+req.params.url, json: true, auth: credentials, body: JSON.parse(req.params.body)}, function(error, response, body){
+      console.log('Request', JIRA_URL+req.params.url)
+      console.log('Body',body);
+      console.log('Request Body',JSON.parse(req.params.body));
       res.send(201, body)
     });
   } else {
