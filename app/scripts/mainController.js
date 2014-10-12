@@ -19,10 +19,11 @@ angular.module('plannrs')
     }
     $scope.formData = {
       selectedProjectId: null,
-      selectedIssueTypeId: 3, // “Task”
-      selectedSecurityId: 10802, // “Open to Centralway”,
-      selectedPriorityId: null, // “Major”,
-      selectedDueDate: moment().add(1, 'week').day(5).format('YYYY-MM-DD'), // “Due Date”
+      selectedIssueTypeId: '3', // “Task”
+      selectedSecurityId: '10802', // “Open to Centralway”,
+      selectedPriorityId: '3', // “Major”,
+      //selectedDueDate: moment().add(1, 'week').day(5).format('YYYY-MM-DD'), // “Due Date”
+      selectedDueDate: null,
       selectedComponentId: null,
       selectedAffectedVersionId: null,
       selectedFixVersionId: null,
@@ -124,10 +125,11 @@ angular.module('plannrs')
     }
 
 
-
+    /*
     $scope.createTicket = function() {
       var ticketData = angular.copy($scope.formData);
       console.log("Response", mainService.createTicket(ticketData));
     }
+    */
     
 }])
