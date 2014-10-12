@@ -1,6 +1,7 @@
 angular.module('plannrs')
   .controller('mainController', ['$scope', 'mainService', function($scope, mainService) {
     $scope.ui = {
+      issueSummary: null,
       projectLabel: 'Select project',
       componentLabel: 'Select component',
       affectedVersionLabel: 'Select version',
@@ -15,7 +16,8 @@ angular.module('plannrs')
       versions: [{name:'Loading...'}],
       labels: ['2014Q4WebDevOps','2014Q4WebFrontEnd','2014Q4WebTechnology','2014Q4WebOperations'],
       epics: [{fields:{customfield_10901:'Loading...'}}],
-      priorities: [{name:'Loading...'}]
+      priorities: [{name:'Loading...'}],
+      issues: []
     }
     $scope.formData = {
       selectedProjectId: null,
@@ -31,6 +33,16 @@ angular.module('plannrs')
       selectedAssignee: "jose.perez",
       selectedLabel: null,
       selectedEpicKey: null
+    }
+
+    $scope.addIssue = function() {
+      var issue = angular.copy($scope.formData);
+      issue.summary = angular.copy($scope.ui.issueSummary);
+      $scope.ui.issueSummary = null;
+      $scope.data.issues.push(issue);
+    }
+    $scope.removeIssue = function(index) {
+      $scope.data.issues.splice(index, 1);
     }
 
     $scope.loadProjects = function() {
@@ -126,10 +138,14 @@ angular.module('plannrs')
 
 
     /*
-    $scope.createTicket = function() {
-      var ticketData = angular.copy($scope.formData);
-      console.log("Response", mainService.createTicket(ticketData));
+    $scope.createIssue = function() {
+      var issueData = angular.copy($scope.formData);
+      console.log("Response", mainService.createissue(issueData));
     }
     */
+    $scope.createBulkIssues = function() {
+      mainService.createBulkIssues($scope.data.issues);
+      $scope.data.issues = [];
+    }
     
 }])

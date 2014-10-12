@@ -21,8 +21,9 @@ function proxyForPOST(req, res, next) {
   if(req.params && req.params.url) {
     request.post({url:JIRA_URL+req.params.url, json: true, auth: credentials, body: JSON.parse(req.params.body)}, function(error, response, body){
       console.log('Request', JIRA_URL+req.params.url)
-      console.log('Body',body);
-      console.log('Request Body',JSON.parse(req.params.body));
+      console.log('Request Body',req.params.body);
+      console.log('Request Body (Parsed)',JSON.parse(req.params.body));
+      console.log('Response', body);
       res.send(201, body)
     });
   } else {

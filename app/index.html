@@ -33,7 +33,16 @@
                     </ul>
                     <h3 class="text-muted">plannrs</h3>
                 </div>
-
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="input-group input-group--jira">
+                            <form ng-submit="addIssue()">
+                                <input type="text" class="form-control" placeholder="Add ticket summary" ng-model="ui.issueSummary">
+                                <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-4">
                         <!-- Projects -->
@@ -146,11 +155,26 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="btn-group btn-group--jira">
-                              <button type="button" class="btn btn-primary" ng-click='createTicket()'>Submit Ticket</button>
+                              <button type="button" class="btn btn-primary" ng-click='createIssue()'>Submit Issue</button>
                         </div>
                     </div>
                 </div> -->
 
+            </div>
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default panel--jira">
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                  <li class="list-group-item" ng-show="!data.issues.length">No issues</li>
+                                  <li class="list-group-item" ng-repeat='issue in data.issues'>{{issue.summary}}<span class="glyphicon glyphicon-remove" ng-click="removeIssue($index)"></span></li>
+                                </ul>
+                                <button ng-show="data.issues.length" type="button" class="btn btn-primary" ng-click='createBulkIssues()'>Create issues</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

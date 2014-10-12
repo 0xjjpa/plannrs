@@ -13,7 +13,7 @@ angular.module('plannrs')
     }
 
     var _postHTTPOperations = function(url, key, defer, body) {
-      $http({method: 'POST', url: API_URL, params: {url:url, body: body}}).success(function(response) {
+      $http({method: 'POST', url: API_URL, params: {url:url, body: angular.toJson(body)}}).success(function(response) {
         //localStorageService.set(key, response);
         defer.resolve(response);
       }).error(function(error) {
@@ -69,18 +69,18 @@ angular.module('plannrs')
       var key = 'GET_PRIORITIES',
           url = '/priority',
           defer = $q.defer();
-          
+
       return _executeSmartAPIRetrieval(url, key, defer);
     }
 
     self.getEpics = function() {
       var key = 'GET_EPICS',
-          url = _getURLFromJQLQuery('issuetype = Epic and project = CWCOM and status = Open'),
+          url = _getURLFromJQLQuery('issuetype = Epic and project = CWCOM and status != Closed'),
           defer = $q.defer();
       return _executeSmartAPIRetrieval(url, key, defer);
     }
 
-    self.createTicket = function(ticketData) {
+    self.createIssue = function(issueData) {
       var queryData = {},
           fields = queryData.fields = {},
           url = '/issue',
@@ -88,43 +88,57 @@ angular.module('plannrs')
 
       //IssueType
       fields.issuetype = {}
-      fields.issuetype.id = ticketData.selectedIssueTypeId;
+      fields.issuetype.id = issueData.selectedIssueTypeId;
       //Project
       fields.project = {}
-      fields.project.id = ticketData.selectedProjectId;
+      fields.project.id = issueData.selectedProjectId;
       //Summary
-      fields.summary = "Review backlog";
+      fields.summary = issueData.summary;
       //Assignee
       fields.assignee = {};
-      fields.assignee.name = ticketData.selectedAssignee;
+      fields.assignee.name = issueData.selectedAssignee;
       //Reporter
       fields.reporter = {};
-      fields.reporter.name = ticketData.selectedReporter;
+      fields.reporter.name = issueData.selectedReporter;
       //Priority
       fields.priority = {}
-      fields.priority.id = ticketData.selectedPriorityId;
+      fields.priority.id = issueData.selectedPriorityId;
       //Security
       fields.security = {}
-      fields.security.id = ticketData.selectedSecurityId;
+      fields.security.id = issueData.selectedSecurityId;
       //DueDate
-      fields.duedate = ticketData.selectedDueDate;
+      fields.duedate = issueData.selectedDueDate;
       //Components
       fields.components = []
-      fields.components.push({id:ticketData.selectedComponentId});
+      fields.components.push({id:issueData.selectedComponentId});
       //Versions (affectedVersions)
       fields.versions = [];
-      fields.versions.push({id:ticketData.selectedAffectedVersionId});
+      fields.versions.push({id:issueData.selectedAffectedVersionId});
       //fixVersions
       fields.fixVersions = []
-      fields.fixVersions.push({id:ticketData.selectedFixVersionId});
+      fields.fixVersions.push({id:issueData.selectedFixVersionId});
       //labels
       fields.labels = []
-      fields.labels.push(ticketData.selectedLabel);
+      fields.labels.push(issueData.selectedLabel);
       fields.labels.push('PendingReview')
       //epic
-      fields.customfield_10900 = ticketData.selectedEpicKey;
-      console.log(queryData)
-      return _postHTTPOperations(url, null, defer,queryData);
+      fields.customfield_10900 = issueData.selectedEpicKey;
+      return queryData;
+      //return _postHTTPOperations(url, null, defer,queryData);
+    }
+
+    self.createBulkIssues = function(issues) {
+      var issueBulkObject = {},
+          issuesArray = [],
+          url = '/issue/bulk',
+          defer = $q.defer();
+      
+      angular.forEach(issues, function(issue){
+        issuesArray.push(self.createIssue(issue));
+      });
+
+      issueBulkObject.issueUpdates = issuesArray;
+      return _postHTTPOperations(url, null, defer, issueBulkObject);
     }
 
     return self;
