@@ -161,16 +161,32 @@
                 </div> -->
 
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-4">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default panel--jira">
+                            <div class="panel-heading">Issues to create</div>
                             <div class="panel-body">
                                 <ul class="list-group">
                                   <li class="list-group-item" ng-show="!data.issues.length">No issues</li>
                                   <li class="list-group-item" ng-repeat='issue in data.issues'>{{issue.summary}}<span class="glyphicon glyphicon-remove" ng-click="removeIssue($index)"></span></li>
                                 </ul>
                                 <button ng-show="data.issues.length" type="button" class="btn btn-primary" ng-click='createBulkIssues()'>Create issues</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default panel--jira">
+                            <div class="panel-heading">Issues created <a ng-click="refreshUnreviewedIssues()">Refresh</a></div>
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                  <li class="list-group-item" ng-show="!data.unreviewedIssues.length">No issues</li>
+                                  <li class="list-group-item" ng-repeat='issue in data.unreviewedIssues'><a ng-href='{{getJIRALink(issue.key)}}' target="_blank">{{issue.fields.summary}}</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>

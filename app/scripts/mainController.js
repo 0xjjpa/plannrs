@@ -1,5 +1,5 @@
 angular.module('plannrs')
-  .controller('mainController', ['$scope', 'mainService', function($scope, mainService) {
+  .controller('mainController', ['$scope', 'mainService','JIRA_URL', function($scope, mainService, JIRA_URL) {
     $scope.ui = {
       issueSummary: null,
       projectLabel: 'Select project',
@@ -17,7 +17,8 @@ angular.module('plannrs')
       labels: ['2014Q4WebDevOps','2014Q4WebFrontEnd','2014Q4WebTechnology','2014Q4WebOperations'],
       epics: [{fields:{customfield_10901:'Loading...'}}],
       priorities: [{name:'Loading...'}],
-      issues: []
+      issues: [],
+      unreviewedIssues: []
     }
     $scope.formData = {
       selectedProjectId: null,
@@ -73,6 +74,12 @@ angular.module('plannrs')
       var promise = mainService.getPriorities();
       promise.then(function(response) {
         $scope.data.priorities = response;
+      }); 
+    }
+    $scope.loadUnreviewedIssues = function(ignoreCache) {
+      var promise = mainService.getUnreviewedIssues(ignoreCache);
+      promise.then(function(response) {
+        $scope.data.unreviewedIssues = response.issues;
       }); 
     }
 
@@ -147,5 +154,13 @@ angular.module('plannrs')
       mainService.createBulkIssues($scope.data.issues);
       $scope.data.issues = [];
     }
+    $scope.getJIRALink = function(key) {
+      return JIRA_URL + '/' + key;
+    }
+    $scope.refreshUnreviewedIssues = function() {
+      $scope.loadUnreviewedIssues(true);
+    }
+
+    $scope.loadUnreviewedIssues();
     
 }])

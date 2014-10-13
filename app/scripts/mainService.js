@@ -2,10 +2,12 @@ angular.module('plannrs')
   .service('mainService', ['$http', '$q', 'localStorageService', 'API_URL', function($http, $q, localStorageService, API_URL) {
     var self = this;
 
-    var _isPreviouslyStored = function(key, defer) {
+    var _isPreviouslyStored = function(key, defer, ignoreCache) {
       var storedValue = localStorageService.get(key)
       if(storedValue) {
-        defer.resolve(storedValue);
+        if(!ignoreCache) {
+          defer.resolve(storedValue);  
+        }
         return true;
       } else {
         return false
@@ -30,8 +32,8 @@ angular.module('plannrs')
       });
     }
 
-    var _executeSmartAPIRetrieval = function(url, key, defer) {
-      if(!_isPreviouslyStored(key, defer)) {
+    var _executeSmartAPIRetrieval = function(url, key, defer, ignoreCache) {
+      if(!_isPreviouslyStored(key, defer, ignoreCache)) {
         _getHTTPOperation(url, key, defer);
       }
       return defer.promise
@@ -78,6 +80,13 @@ angular.module('plannrs')
           url = _getURLFromJQLQuery('issuetype = Epic and project = CWCOM and status != Closed'),
           defer = $q.defer();
       return _executeSmartAPIRetrieval(url, key, defer);
+    }
+
+    self.getUnreviewedIssues = function(ignoreCache) {
+      var key = 'GET_UNREVIEWEDISSUES',
+          url = _getURLFromJQLQuery('labels in (PendingReview)'),
+          defer = $q.defer();
+      return _executeSmartAPIRetrieval(url, key, defer, ignoreCache);
     }
 
     self.createIssue = function(issueData) {
