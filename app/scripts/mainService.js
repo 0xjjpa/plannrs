@@ -3,11 +3,10 @@ angular.module('plannrs')
     var self = this;
 
     var _isPreviouslyStored = function(key, defer, ignoreCache) {
+      if(ignoreCache) return false;
       var storedValue = localStorageService.get(key)
       if(storedValue) {
-        if(!ignoreCache) {
-          defer.resolve(storedValue);  
-        }
+        defer.resolve(storedValue);  
         return true;
       } else {
         return false

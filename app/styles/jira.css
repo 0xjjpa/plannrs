@@ -30,3 +30,7 @@
   float: right;
   cursor: pointer;
 }
+
+[ng-click] {
+  cursor: pointer;
+}
