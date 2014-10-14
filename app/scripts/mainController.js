@@ -64,8 +64,8 @@ angular.module('plannrs')
         $scope.data.versions = response;
       });
     }
-    $scope.loadEpics = function() {
-      var promise = mainService.getEpics();
+    $scope.loadEpics = function(ignoreCache) {
+      var promise = mainService.getEpics(ignoreCache);
       promise.then(function(response) {
         $scope.data.epics = response.issues;
       }); 
@@ -159,6 +159,9 @@ angular.module('plannrs')
     }
     $scope.refreshUnreviewedIssues = function() {
       $scope.loadUnreviewedIssues(true);
+    }
+    $scope.refreshEpics = function() {
+      $scope.loadEpics(true);
     }
 
     $scope.loadUnreviewedIssues();

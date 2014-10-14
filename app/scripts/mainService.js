@@ -74,11 +74,11 @@ angular.module('plannrs')
       return _executeSmartAPIRetrieval(url, key, defer);
     }
 
-    self.getEpics = function() {
+    self.getEpics = function(ignoreCache) {
       var key = 'GET_EPICS',
           url = _getURLFromJQLQuery('issuetype = Epic and project = CWCOM and status != Closed'),
           defer = $q.defer();
-      return _executeSmartAPIRetrieval(url, key, defer);
+      return _executeSmartAPIRetrieval(url, key, defer, ignoreCache);
     }
 
     self.getUnreviewedIssues = function(ignoreCache) {

@@ -140,7 +140,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="btn-group btn-group--jira">
-                              <button type="button" class="btn btn-primary">Epic</button>
+                              <button type="button" class="btn btn-primary" ng-click="refreshEpics()">Epic&nbsp;<span class="glyphicon glyphicon-repeat"></span></button>
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadEpics()">
                               {{ui.epicLabel}} <span class="caret"></span>&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove" ng-click="clearEpic()"></span>
                               </button>
