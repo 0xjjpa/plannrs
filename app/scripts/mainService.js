@@ -88,6 +88,14 @@ angular.module('plannrs')
       return _executeSmartAPIRetrieval(url, key, defer, ignoreCache);
     }
 
+    self.getUsers = function() {
+      var key = 'GET_USERS',
+          url = '/user/assignable/search\?project\=CWCOM',
+          defer = $q.defer();
+
+      return _executeSmartAPIRetrieval(url, key, defer);
+    }
+
     self.createIssue = function(issueData) {
       var queryData = {},
           fields = queryData.fields = {},
@@ -104,7 +112,7 @@ angular.module('plannrs')
       fields.summary = issueData.summary;
       //Assignee
       fields.assignee = {};
-      fields.assignee.name = issueData.selectedAssignee;
+      fields.assignee.name = issueData.selectedAssignee || "jose.perez";
       //Reporter
       fields.reporter = {};
       fields.reporter.name = issueData.selectedReporter;

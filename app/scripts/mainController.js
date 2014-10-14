@@ -8,7 +8,8 @@ angular.module('plannrs')
       fixVersionLabel: 'Select version',
       labelLabel: 'Select label',
       epicLabel: 'Select epic',
-      priorityLabel: 'Select priority'
+      priorityLabel: 'Select priority',
+      userLabel: 'Select user'
     }
     $scope.data = {
       projects: [{key:'Loading...'}],
@@ -16,9 +17,10 @@ angular.module('plannrs')
       versions: [{name:'Loading...'}],
       labels: ['2014Q4WebDevOps','2014Q4WebFrontEnd','2014Q4WebTechnology','2014Q4WebOperations'],
       epics: [{fields:{customfield_10901:'Loading...'}}],
-      priorities: [{name:'Loading...'}],
+      priorities: [{displayName:'Loading...'}],
       issues: [],
-      unreviewedIssues: []
+      unreviewedIssues: [],
+      users: [{key:'Loading...'}]
     }
     $scope.formData = {
       selectedProjectId: null,
@@ -31,7 +33,7 @@ angular.module('plannrs')
       selectedAffectedVersionId: null,
       selectedFixVersionId: null,
       selectedReporter: "jose.perez",
-      selectedAssignee: "jose.perez",
+      selectedAssignee: null,
       selectedLabel: null,
       selectedEpicKey: null
     }
@@ -81,6 +83,17 @@ angular.module('plannrs')
       promise.then(function(response) {
         $scope.data.unreviewedIssues = response.issues;
       }); 
+    }
+    $scope.loadUsers = function() {
+      var promise = mainService.getUsers();
+      promise.then(function(response) {
+        $scope.data.users = response;
+      }); 
+    }
+
+    $scope.selectedAssignee = function(assignee) {
+      $scope.ui.userLabel = assignee.displayName;
+      $scope.formData.selectedAssignee = assignee.key;
     }
 
     $scope.selectProject = function(project) {
