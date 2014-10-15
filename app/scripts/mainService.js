@@ -115,7 +115,7 @@ angular.module('plannrs')
       fields.assignee.name = issueData.selectedAssignee || "jose.perez";
       //Reporter
       fields.reporter = {};
-      fields.reporter.name = issueData.selectedReporter;
+      fields.reporter.name = issueData.selectedReporter || "jose.perez";
       //Priority
       fields.priority = {}
       fields.priority.id = issueData.selectedPriorityId;
@@ -124,21 +124,23 @@ angular.module('plannrs')
       fields.security.id = issueData.selectedSecurityId;
       //DueDate
       fields.duedate = issueData.selectedDueDate;
+      if(!fields.duedate) delete fields.duedate;
       //Components
-      fields.components = []
-      fields.components.push({id:issueData.selectedComponentId});
+      fields.components = issueData.selectedComponentId ? [{id:issueData.selectedComponentId}] : null;
+      if(!fields.components) delete fields.components;
       //Versions (affectedVersions)
-      fields.versions = [];
-      fields.versions.push({id:issueData.selectedAffectedVersionId});
+      fields.versions = issueData.selectedAffectedVersionId ? [{id:issueData.selectedAffectedVersionId}] : null;
+      if(!fields.versions) delete fields.versions;
       //fixVersions
-      fields.fixVersions = []
-      fields.fixVersions.push({id:issueData.selectedFixVersionId});
+      fields.fixVersions = issueData.selectedFixVersionId ? [{id:issueData.selectedFixVersionId}] : null;
+      if(!fields.fixVersions) delete fields.fixVersions;
       //labels
       fields.labels = []
-      fields.labels.push(issueData.selectedLabel);
+      if(issueData.selectedLabel) fields.labels.push(issueData.selectedLabel);
       fields.labels.push('PendingReview')
       //epic
       fields.customfield_10900 = issueData.selectedEpicKey;
+      if(!fields.customfield_10900) delete fields.customfield_10900;
       return queryData;
       //return _postHTTPOperations(url, null, defer,queryData);
     }

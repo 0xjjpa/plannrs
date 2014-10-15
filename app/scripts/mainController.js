@@ -9,7 +9,8 @@ angular.module('plannrs')
       labelLabel: 'Select label',
       epicLabel: 'Select epic',
       priorityLabel: 'Select priority',
-      userLabel: 'Select user'
+      assigneeLabel: 'Select assignee',
+      reporterLabel: 'Select assignee',
     }
     $scope.data = {
       projects: [{key:'Loading...'}],
@@ -32,7 +33,7 @@ angular.module('plannrs')
       selectedComponentId: null,
       selectedAffectedVersionId: null,
       selectedFixVersionId: null,
-      selectedReporter: "jose.perez",
+      selectedReporter: null,
       selectedAssignee: null,
       selectedLabel: null,
       selectedEpicKey: null
@@ -91,9 +92,14 @@ angular.module('plannrs')
       }); 
     }
 
-    $scope.selectedAssignee = function(assignee) {
-      $scope.ui.userLabel = assignee.displayName;
+    $scope.selectAssignee = function(assignee) {
+      $scope.ui.assigneeLabel = assignee.displayName;
       $scope.formData.selectedAssignee = assignee.key;
+    }
+
+    $scope.selectReporter = function(reporter) {
+      $scope.ui.reporterLabel = reporter.displayName;
+      $scope.formData.selectedReporter = reporter.key;
     }
 
     $scope.selectProject = function(project) {
