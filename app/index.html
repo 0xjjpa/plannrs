@@ -124,7 +124,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="btn-group btn-group--jira">
-                              <button type="button" class="btn btn-primary">Affected Version</button>
+                              <button type="button" class="btn btn-primary" ng-click="loadVersions(true)">Aff. Version&nbsp;<span class="glyphicon glyphicon-repeat"></span></button>
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadVersions()">
                               {{ui.affectedVersionLabel}} <span class="caret"></span>&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove" ng-click="clearAffectedVersion()"></span>
                               </button>
@@ -139,7 +139,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="btn-group btn-group--jira">
-                              <button type="button" class="btn btn-primary">Fix Version</button>
+                              <button type="button" class="btn btn-primary" ng-click="loadVersions(true)">Fix Version&nbsp;<span class="glyphicon glyphicon-repeat"></span></button>
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadVersions()">
                               {{ui.fixVersionLabel}} <span class="caret"></span>&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove" ng-click="clearFixVersion()"></span>
                               </button>
@@ -170,7 +170,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="btn-group btn-group--jira">
-                              <button type="button" class="btn btn-primary" ng-click="refreshEpics()">Epic&nbsp;<span class="glyphicon glyphicon-repeat"></span></button>
+                              <button type="button" class="btn btn-primary" ng-click="loadEpics(true)">Epic&nbsp;<span class="glyphicon glyphicon-repeat"></span></button>
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadEpics()">
                               {{ui.epicLabel}} <span class="caret"></span>&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove" ng-click="clearEpic()"></span>
                               </button>

@@ -10,7 +10,7 @@ angular.module('plannrs')
       epicLabel: 'Select epic',
       priorityLabel: 'Select priority',
       assigneeLabel: 'Select assignee',
-      reporterLabel: 'Select assignee',
+      reporterLabel: 'Select reporter',
     }
     $scope.data = {
       projects: [{key:'Loading...'}],
@@ -61,8 +61,8 @@ angular.module('plannrs')
         $scope.data.components = response;
       });
     }
-    $scope.loadVersions = function() {
-      var promise = mainService.getVersions();
+    $scope.loadVersions = function(ignoreCache) {
+      var promise = mainService.getVersions(ignoreCache);
       promise.then(function(response) {
         $scope.data.versions = response;
       });
@@ -178,9 +178,6 @@ angular.module('plannrs')
     }
     $scope.refreshUnreviewedIssues = function() {
       $scope.loadUnreviewedIssues(true);
-    }
-    $scope.refreshEpics = function() {
-      $scope.loadEpics(true);
     }
 
     $scope.loadUnreviewedIssues();

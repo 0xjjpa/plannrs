@@ -50,12 +50,12 @@ angular.module('plannrs')
       return _executeSmartAPIRetrieval(url, key, defer);
     }
 
-    self.getVersions = function() {
+    self.getVersions = function(ignoreCache) {
       var key = 'GET_VERSIONS',
           url = '/project/11903/versions', // “CWCOM Project”
           defer = $q.defer();
 
-      return _executeSmartAPIRetrieval(url, key, defer);
+      return _executeSmartAPIRetrieval(url, key, defer, ignoreCache);
     }
 
     self.getProjects = function() {
