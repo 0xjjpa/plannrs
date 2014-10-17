@@ -91,14 +91,14 @@ angular.module('plannrs')
 
     self.getUnreviewedIssues = function(ignoreCache) {
       var key = 'GET_UNREVIEWEDISSUES',
-          url = _getURLFromJQLQuery('labels in (PendingReview)'),
+          url = _getURLFromJQLQuery('labels in (PendingReview) and status not in (Closed,Resolved)'),
           defer = $q.defer();
       return _executeSmartAPIRetrieval(url, key, defer, ignoreCache);
     }
 
     self.getUsers = function() {
       var key = 'GET_USERS',
-          url = '/user/assignable/search\?project\=CWCOM',
+          url = '/user/assignable/search\?project\=CWCOM\&maxResults\=200',
           defer = $q.defer();
 
       return _executeSmartAPIRetrieval(url, key, defer);

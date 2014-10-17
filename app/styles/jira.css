@@ -23,6 +23,11 @@
   overflow: scroll;
 }
 
+.dropdown-menu--jira {
+  width: 900px;
+  -webkit-column-count: 4;
+}
+
 
 
 /* DANGER, GENERAL RULE */

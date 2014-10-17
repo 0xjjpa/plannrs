@@ -53,7 +53,7 @@
                                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadProjects()">
                                       {{ui.projectLabel}} <span class="caret"></span>
                                   </button>
-                                  <ul class="dropdown-menu" role="menu">
+                                  <ul class="dropdown-menu dropdown-menu--jira" role="menu">
                                     <li ng-repeat="project in data.projects | orderBy: 'key'"><a href="#" ng-click="selectProject(project)">{{project.key}}</a></li>
                                 </ul>
                             </div>
@@ -68,7 +68,7 @@
                                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadUsers()">
                                       {{ui.assigneeLabel}} <span class="caret"></span>
                                   </button>
-                                  <ul class="dropdown-menu" role="menu">
+                                  <ul class="dropdown-menu dropdown-menu--jira" role="menu">
                                     <li ng-repeat="user in data.users | orderBy: 'displayName'"><a href="#" ng-click="selectAssignee(user)">{{user.displayName}}</a></li>
                                 </ul>
                             </div>
@@ -83,7 +83,7 @@
                                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadUsers()">
                                       {{ui.reporterLabel}} <span class="caret"></span>
                                   </button>
-                                  <ul class="dropdown-menu" role="menu">
+                                  <ul class="dropdown-menu dropdown-menu--jira" role="menu">
                                     <li ng-repeat="user in data.users | orderBy: 'displayName'"><a href="#" ng-click="selectReporter(user)">{{user.displayName}}</a></li>
                                 </ul>
                             </div>
@@ -98,7 +98,7 @@
                                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadIssueTypes()">
                                       {{ui.issueTypeLabel}} <span class="caret"></span>
                                   </button>
-                                  <ul class="dropdown-menu" role="menu">
+                                  <ul class="dropdown-menu dropdown-menu--jira" role="menu">
                                     <li ng-repeat="issueType in data.issueTypes | orderBy: 'name'"><a href="#" ng-click="selectIssueType(issueType)">{{issueType.name}}</a></li>
                                 </ul>
                             </div>
@@ -128,7 +128,7 @@
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadComponents()">
                               {{ui.componentLabel}} <span class="caret"></span>&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove" ng-click="clearComponent()"></span>
                               </button>
-                              <ul class="dropdown-menu" role="menu">
+                              <ul class="dropdown-menu dropdown-menu--jira" role="menu">
                                 <li ng-repeat="component in data.components | orderBy: 'name'"><a href="#" ng-click="selectComponent(component)">{{component.name}}</a></li>
                             </ul>
                         </div>
@@ -143,7 +143,7 @@
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadVersions()">
                               {{ui.affectedVersionLabel}} <span class="caret"></span>&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove" ng-click="clearAffectedVersion()"></span>
                               </button>
-                              <ul class="dropdown-menu" role="menu">
+                              <ul class="dropdown-menu dropdown-menu--jira" role="menu">
                                 <li ng-repeat="version in data.versions | orderBy: 'name'"><a href="#" ng-click="selectAffectedVersion(version)">{{version.name}}</a></li>
                             </ul>
                         </div>
@@ -158,7 +158,7 @@
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadVersions()">
                               {{ui.fixVersionLabel}} <span class="caret"></span>&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove" ng-click="clearFixVersion()"></span>
                               </button>
-                              <ul class="dropdown-menu" role="menu">
+                              <ul class="dropdown-menu dropdown-menu--jira" role="menu">
                                 <li ng-repeat="version in data.versions | orderBy: 'name'"><a href="#" ng-click="selectFixVersion(version)">{{version.name}}</a></li>
                             </ul>
                         </div>
@@ -189,7 +189,7 @@
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="loadEpics()">
                               {{ui.epicLabel}} <span class="caret"></span>&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-remove" ng-click="clearEpic()"></span>
                               </button>
-                              <ul class="dropdown-menu" role="menu">
+                              <ul class="dropdown-menu dropdown-menu--jira" role="menu">
                                 <li ng-repeat="epic in data.epics | orderBy: 'fields.customfield_10901'"><a href="#" ng-click="selectEpic(epic)">{{epic.fields.customfield_10901}}</a></li>
                             </ul>
                         </div>
