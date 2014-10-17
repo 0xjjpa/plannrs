@@ -74,6 +74,14 @@ angular.module('plannrs')
       return _executeSmartAPIRetrieval(url, key, defer);
     }
 
+    self.getIssueTypes = function() {
+      var key = 'GET_ISSUETYPES',
+          url = '/issuetype',
+          defer = $q.defer();
+
+      return _executeSmartAPIRetrieval(url, key, defer);
+    }
+
     self.getEpics = function(ignoreCache) {
       var key = 'GET_EPICS',
           url = _getURLFromJQLQuery('issuetype = Epic and project = CWCOM and status != Closed'),
@@ -104,7 +112,7 @@ angular.module('plannrs')
 
       //IssueType
       fields.issuetype = {}
-      fields.issuetype.id = issueData.selectedIssueTypeId;
+      fields.issuetype.id = issueData.selectedIssueTypeId || '3'; // “Task”
       //Project
       fields.project = {}
       fields.project.id = issueData.selectedProjectId;

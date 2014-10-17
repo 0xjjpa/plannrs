@@ -11,6 +11,7 @@ angular.module('plannrs')
       priorityLabel: 'Select priority',
       assigneeLabel: 'Select assignee',
       reporterLabel: 'Select reporter',
+      issueTypeLabel: 'Select issue type'
     }
     $scope.data = {
       projects: [{key:'Loading...'}],
@@ -21,11 +22,12 @@ angular.module('plannrs')
       priorities: [{displayName:'Loading...'}],
       issues: [],
       unreviewedIssues: [],
-      users: [{key:'Loading...'}]
+      users: [{key:'Loading...'}],
+      issueTypes: [{name: 'Loading...'}]
     }
     $scope.formData = {
       selectedProjectId: null,
-      selectedIssueTypeId: '3', // “Task”
+      selectedIssueTypeId: null,
       selectedSecurityId: '10802', // “Open to Centralway”,
       selectedPriorityId: '3', // “Major”,
       //selectedDueDate: moment().add(1, 'week').day(5).format('YYYY-MM-DD'), // “Due Date”
@@ -91,6 +93,12 @@ angular.module('plannrs')
         $scope.data.users = response;
       }); 
     }
+    $scope.loadIssueTypes = function() {
+      var promise = mainService.getIssueTypes();
+      promise.then(function(response) {
+        $scope.data.issueTypes = response;
+      });
+    }
 
     $scope.selectAssignee = function(assignee) {
       $scope.ui.assigneeLabel = assignee.displayName;
@@ -100,6 +108,11 @@ angular.module('plannrs')
     $scope.selectReporter = function(reporter) {
       $scope.ui.reporterLabel = reporter.displayName;
       $scope.formData.selectedReporter = reporter.key;
+    }
+
+    $scope.selectIssueType = function(issueType) {
+      $scope.ui.issueTypeLabel = issueType.name;
+      $scope.formData.selectedIssueTypeId = issueType.id;
     }
 
     $scope.selectProject = function(project) {
