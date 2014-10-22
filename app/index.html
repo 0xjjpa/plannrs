@@ -246,7 +246,7 @@
           <div class="col-lg-12">
               <div class="input-group">
                       <input type="text" class="form-control" placeholder="Provide JQL Query" ng-model="ui.jqlQuery">
-                      <span class="input-group-addon">Result: Nothing</span>
+                      <span class="input-group-addon">Result: {{ui.jqlQueryProcessingResult}}</span>
               </div>
           </div>
         </div>
@@ -314,6 +314,7 @@
     <script src="scripts/mainModule.js"></script>
     <script src="scripts/mainController.js"></script>
     <script src="scripts/mainService.js"></script>
+    <script src="scripts/ticketProcessorService.js"></script>
     <!-- endbuild -->
 </body>
 </html>

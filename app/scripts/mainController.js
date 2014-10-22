@@ -1,5 +1,5 @@
 angular.module('plannrs')
-  .controller('mainController', ['$scope', 'mainService','JIRA_URL', function($scope, mainService, JIRA_URL) {
+  .controller('mainController', ['$scope', 'mainService','JIRA_URL', 'ticketProcessorService', function($scope, mainService, JIRA_URL, ticketProcessorService) {
     $scope.ui = {
       issueSummary: null,
       projectLabel: 'Select project',
@@ -11,7 +11,9 @@ angular.module('plannrs')
       priorityLabel: 'Select priority',
       assigneeLabel: 'Select assignee',
       reporterLabel: 'Select reporter',
-      issueTypeLabel: 'Select issue type'
+      issueTypeLabel: 'Select issue type',
+      jqlQuery: null,
+      jqlQueryProcessingResult: 'Nothing'
     }
     $scope.data = {
       projects: [{key:'Loading...'}],
@@ -191,6 +193,10 @@ angular.module('plannrs')
     }
     $scope.refreshUnreviewedIssues = function() {
       $scope.loadUnreviewedIssues(true);
+    }
+
+    $scope.getTotalStoryPoints = function() {
+      ticketProcessorService.getTotalStoryPoints($scope.ui.jqlQuery, $scope.ui);
     }
 
     $scope.loadUnreviewedIssues();

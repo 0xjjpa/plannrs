@@ -104,6 +104,14 @@ angular.module('plannrs')
       return _executeSmartAPIRetrieval(url, key, defer);
     }
 
+    self.getJQLQuery = function(jqlQuery) {
+      var key = 'GET_JQL_QUERY',
+          url = _getURLFromJQLQuery(jqlQuery),
+          ignoreCache = true,
+          defer = $q.defer();
+      return _executeSmartAPIRetrieval(url, key, defer, ignoreCache);
+    }
+
     self.createIssue = function(issueData) {
       var queryData = {},
           fields = queryData.fields = {},
