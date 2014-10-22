@@ -33,6 +33,7 @@
                     </ul>
                     <h3 class="text-muted">plannrs</h3>
                 </div>
+                <h4>Batch Tickets Quick Creator</h4>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="input-group input-group--jira">
@@ -238,6 +239,25 @@
                 </div>
             </div>
         </div>
+        <br>
+        <br>
+        <h4>JQL Operations on Query</h4>
+        <div class="row">
+          <div class="col-lg-12">
+              <div class="input-group">
+                      <input type="text" class="form-control" placeholder="Provide JQL Query" ng-model="ui.jqlQuery">
+                      <span class="input-group-addon">Result: Nothing</span>
+              </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-12">
+              <button type="button" class="btn btn-primary" ng-click='getTotalStoryPoints()'>Get total Story Points</button>
+          </div>
+        </div>
+
+        
 
         <div class="row marketing">
             <div class="col-lg-6"> 
