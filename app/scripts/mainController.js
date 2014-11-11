@@ -199,6 +199,10 @@ angular.module('plannrs')
       ticketProcessorService.getTotalStoryPoints($scope.ui.jqlQuery, $scope.ui);
     }
 
+    $scope.getTotalLabels = function() {
+      ticketProcessorService.getTotalLabels($scope.ui.jqlQuery, $scope.ui);
+    }
+
     $scope.loadUnreviewedIssues();
     
 }])
