@@ -2,6 +2,14 @@ angular.module('plannrs')
   .service('mainService', ['$http', '$q', 'localStorageService', 'API_URL', function($http, $q, localStorageService, API_URL) {
     var self = this;
 
+    //See https://confluence.cwc.io/display/CWCOM/Web+Label+System+Framework
+    var _acceptedLabels = [
+      '2014Q4WebDevOps','2014Q4WebFrontEnd','2014Q4WebTechnology','2014Q4WebOperations',
+      'WebArchitectureDesign', 'WebSystem', 'WebUserStory', 'WebScenario',
+      'WebBlocker','WebPlanning','WebWatcher',
+      'WebLowScope','WebMediumScope','WebHighScope'
+    ]
+
     var _isPreviouslyStored = function(key, defer, ignoreCache) {
       if(ignoreCache) return false;
       var storedValue = localStorageService.get(key)
@@ -39,7 +47,7 @@ angular.module('plannrs')
     }
 
     var _getURLFromJQLQuery = function(query) {
-      return '/search?jql='+encodeURI(query);
+      return '/search?jql='+encodeURI(query)+'\&maxResults\=500';
     }
 
     self.getComponents = function() {
@@ -89,9 +97,16 @@ angular.module('plannrs')
       return _executeSmartAPIRetrieval(url, key, defer, ignoreCache);
     }
 
+    self.getLabels = function(ignoreCache) {
+      var key = 'GET_LABELS',
+          defer = $q.defer();
+      defer.resolve(_acceptedLabels);
+      return defer.promise;
+    }
+
     self.getUnreviewedIssues = function(ignoreCache) {
       var key = 'GET_UNREVIEWEDISSUES',
-          url = _getURLFromJQLQuery('labels in (PendingReview) and status not in (Closed,Resolved)'),
+          url = _getURLFromJQLQuery('labels in (WebReview) and status not in (Closed,Resolved)'),
           defer = $q.defer();
       return _executeSmartAPIRetrieval(url, key, defer, ignoreCache);
     }
@@ -152,8 +167,9 @@ angular.module('plannrs')
       if(!fields.fixVersions) delete fields.fixVersions;
       //labels
       fields.labels = []
-      if(issueData.selectedLabel) fields.labels.push(issueData.selectedLabel);
-      fields.labels.push('PendingReview')
+      if(issueData.selectedLabel1) fields.labels.push(issueData.selectedLabel1);
+      if(issueData.selectedLabel2) fields.labels.push(issueData.selectedLabel2);
+      fields.labels.push('WebReview')
       //epic
       fields.customfield_10900 = issueData.selectedEpicKey;
       if(!fields.customfield_10900) delete fields.customfield_10900;

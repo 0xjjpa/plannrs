@@ -6,7 +6,8 @@ angular.module('plannrs')
       componentLabel: 'Select component',
       affectedVersionLabel: 'Select version',
       fixVersionLabel: 'Select version',
-      labelLabel: 'Select label',
+      labelLabel1: 'Select label 1',
+      labelLabel2: 'Select label 2',
       epicLabel: 'Select epic',
       priorityLabel: 'Select priority',
       assigneeLabel: 'Select assignee',
@@ -19,7 +20,7 @@ angular.module('plannrs')
       projects: [{key:'Loading...'}],
       components: [{name:'Loading...'}],
       versions: [{name:'Loading...'}],
-      labels: ['2014Q4WebDevOps','2014Q4WebFrontEnd','2014Q4WebTechnology','2014Q4WebOperations'],
+      labels: ['Loading...'],
       epics: [{fields:{customfield_10901:'Loading...'}}],
       priorities: [{displayName:'Loading...'}],
       issues: [],
@@ -39,7 +40,8 @@ angular.module('plannrs')
       selectedFixVersionId: null,
       selectedReporter: null,
       selectedAssignee: null,
-      selectedLabel: null,
+      selectedLabel1: null,
+      selectedLabel2: null,
       selectedEpicKey: null
     }
 
@@ -75,6 +77,12 @@ angular.module('plannrs')
       var promise = mainService.getEpics(ignoreCache);
       promise.then(function(response) {
         $scope.data.epics = response.issues;
+      }); 
+    }
+    $scope.loadLabels = function(ignoreCache) {
+      var promise = mainService.getLabels(ignoreCache);
+      promise.then(function(response) {
+        $scope.data.labels = response;
       }); 
     }
     $scope.loadPriorities = function() {
@@ -158,13 +166,23 @@ angular.module('plannrs')
     }
 
 
-    $scope.selectLabel = function(label) {
-      $scope.ui.labelLabel = label;
-      $scope.formData.selectedLabel = label; 
+    $scope.selectLabel1 = function(label) {
+      $scope.ui.labelLabel1 = label;
+      $scope.formData.selectedLabel1 = label; 
     }
-    $scope.clearLabel = function() {
-      $scope.ui.labelLabel = 'Select label';
-      $scope.formData.selectedLabel = null;
+
+    $scope.selectLabel2 = function(label) {
+      $scope.ui.labelLabel1 = label;
+      $scope.formData.selectedLabel1 = label; 
+    }
+
+    $scope.clearLabel1 = function() {
+      $scope.ui.labelLabel1 = 'Select label 1';
+      $scope.formData.selectedLabel1 = null;
+    }
+    $scope.clearLabel2 = function() {
+      $scope.ui.labelLabel2 = 'Select label 2';
+      $scope.formData.selectedLabel2 = null;
     }
 
 
