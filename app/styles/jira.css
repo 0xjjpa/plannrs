@@ -6,9 +6,14 @@
   font-size: 0.9em;
   padding: 10px 0;
 }
-.btn-group--jira button:nth-child(2) {
+.btn-group--jira button:nth-child(2), .btn-group--jira .form-control {
   width: 80%;
 }
+
+.btn-group--jira .form-control  {
+  height: 31px;
+}
+
 .btn-group--jira .dropdown-menu {
   left: 50%;
 }

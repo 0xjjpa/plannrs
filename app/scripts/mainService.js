@@ -136,6 +136,12 @@ angular.module('plannrs')
       //IssueType
       fields.issuetype = {}
       fields.issuetype.id = issueData.selectedIssueTypeId || '3'; // “Task”
+
+      if(fields.issuetype.id === "1") {//Bug
+        fields.customfield_11503 = "See bug title"; // Actual Results
+        fields.customfield_11501 = "See bug title"; // Steps Required
+      }
+      
       //Project
       fields.project = {}
       fields.project.id = issueData.selectedProjectId;
@@ -173,6 +179,10 @@ angular.module('plannrs')
       //epic
       fields.customfield_10900 = issueData.selectedEpicKey;
       if(!fields.customfield_10900) delete fields.customfield_10900;
+      //story points
+      fields.customfield_10105 = issueData.storyPoints;
+      if(!fields.customfield_10105) delete fields.customfield_10105;
+
       return queryData;
       //return _postHTTPOperations(url, null, defer,queryData);
     }

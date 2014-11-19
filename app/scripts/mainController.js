@@ -32,7 +32,7 @@ angular.module('plannrs')
       selectedProjectId: null,
       selectedIssueTypeId: null,
       selectedSecurityId: '10802', // “Open to Centralway”,
-      selectedPriorityId: '3', // “Major”,
+      selectedPriorityId: null,
       //selectedDueDate: moment().add(1, 'week').day(5).format('YYYY-MM-DD'), // “Due Date”
       selectedDueDate: null,
       selectedComponentId: null,
@@ -42,7 +42,8 @@ angular.module('plannrs')
       selectedAssignee: null,
       selectedLabel1: null,
       selectedLabel2: null,
-      selectedEpicKey: null
+      selectedEpicKey: null,
+      storyPoints: null
     }
 
     $scope.addIssue = function() {
@@ -172,8 +173,8 @@ angular.module('plannrs')
     }
 
     $scope.selectLabel2 = function(label) {
-      $scope.ui.labelLabel1 = label;
-      $scope.formData.selectedLabel1 = label; 
+      $scope.ui.labelLabel2 = label;
+      $scope.formData.selectedLabel2 = label; 
     }
 
     $scope.clearLabel1 = function() {
